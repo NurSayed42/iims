@@ -1,0 +1,95 @@
+.detail-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.detail-header {
+  background-color: #116045;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detail-header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.detail-content {
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.detail-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detail-card h2 {
+  color: #116045;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.detail-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-section:last-child {
+  border-bottom: none;
+}
+
+.detail-section h3 {
+  color: #116045;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.detail-section p {
+  color: #666;
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+.detail-section strong {
+  color: #116045;
+}
+
+.detail-section select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.update-button {
+  background-color: #116045;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #0d4a35;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #f44336;
+  font-size: 18px;
+}

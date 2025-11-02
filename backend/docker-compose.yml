@@ -1,0 +1,132 @@
+# services:
+#   db:
+#     image: postgres:15-alpine
+#     container_name: invest_db
+#     environment:
+#       POSTGRES_DB: invest_traker
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: 12345
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U postgres"]
+#       interval: 5s
+#       timeout: 10s
+#       retries: 10
+#       start_period: 30s
+
+#   web:
+#     build: .
+#     container_name: invest_backend
+#     command: sh -c "chmod +x /app/wait-for-db.sh && /app/wait-for-db.sh db 5432 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       DEBUG: "True"
+#       DJANGO_SETTINGS_MODULE: invest_backend.settings
+#       DATABASE_URL: postgresql://postgres:12345@db:5432/invest_traker
+#     depends_on:
+#       db:
+#         condition: service_healthy
+#     volumes:
+#       - .:/app
+#     networks:
+#       - invest_network
+
+#   pgadmin:
+#     image: dpage/pgadmin4:latest
+#     container_name: invest_pgadmin
+#     environment:
+#       PGADMIN_DEFAULT_EMAIL: admin@example.com
+#       PGADMIN_DEFAULT_PASSWORD: admin
+#     ports:
+#       - "5050:80"
+#     depends_on:
+#       - db
+#     networks:
+#       - invest_network
+#     volumes:
+#       - pgadmin_data:/var/lib/pgadmin
+
+# volumes:
+#   postgres_data:
+#   pgadmin_data:
+
+# networks:
+#   invest_network:
+#     driver: bridge
+
+
+
+
+
+
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: invest_db
+    environment:
+      POSTGRES_DB: invest_traker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    networks:  # ✅ এই লাইন যোগ করুন
+      - invest_network  # ✅ এই লাইন যোগ করুন
+
+  web:
+    build: .
+    container_name: invest_backend
+    command: >
+      sh -c "sleep 15 && 
+             python manage.py migrate && 
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    environment:
+      DEBUG: "True"
+      DJANGO_SETTINGS_MODULE: invest_backend.settings
+      DATABASE_URL: postgresql://postgres:12345@db:5432/invest_traker
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    networks:
+      - invest_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: invest_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - invest_network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  invest_network:
+    driver: bridge
